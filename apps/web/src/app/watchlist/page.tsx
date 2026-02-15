@@ -27,15 +27,30 @@ export default function WatchlistPage() {
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="text-sm font-semibold">Alert rules</div>
           <div className="mt-4 space-y-2 text-sm">
-            {watchlistMock.alerts.map((alert) => (
-              <div key={alert.type} className="flex justify-between">
-                <span>{alert.type}</span>
+            {watchlistMock.rules.map((rule) => (
+              <div key={rule.id} className="flex justify-between">
+                <span>{rule.type.replace(/_/g, " ")}</span>
                 <span className="text-muted-foreground">
-                  {alert.enabled ? "On" : "Off"}
+                  {rule.enabled ? "On" : "Off"}
                 </span>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-xl border border-border bg-card p-6">
+        <div className="text-sm font-semibold">Notifications</div>
+        <div className="mt-4 space-y-3 text-sm">
+          {watchlistMock.notifications.map((note) => (
+            <div key={note.id} className="rounded-md border border-border p-3">
+              <div className="font-medium">{note.title}</div>
+              <div className="text-sm text-muted-foreground">{note.message}</div>
+              <div className="text-xs text-muted-foreground">
+                {note.createdAt} · {note.read ? "Read" : "Unread"}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>

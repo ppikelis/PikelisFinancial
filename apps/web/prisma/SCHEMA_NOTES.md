@@ -8,7 +8,8 @@
 - **Entity**: people/institutions/analysts; linked to activity events.
 - **ActivityEvent**: unified stream for Congress/insider/13F/analyst actions.
 - **Source / ArticleSource**: provenance tracking for citations.
-- **Watchlist / WatchlistItem / AlertRule**: user retention loop.
+- **Watchlist / WatchlistItem / WatchlistEntity / AlertRule**: follow tickers/entities and alert rules.
+- **Notification**: in-app notifications for rule matches.
 - **SignalScore**: computed signal scores for ranking and “why now.”
 
 ## Example Queries by Page

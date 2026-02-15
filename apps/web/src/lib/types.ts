@@ -34,6 +34,8 @@ export interface Article {
   publishedAt: string;
   tickers: string[];
   content: string[];
+  preview?: string[];
+  paywalled?: boolean;
   sources: SourceLink[];
   disclosures: string[];
 }
@@ -47,6 +49,30 @@ export interface ActivityEvent {
   amount?: string;
   date: string;
   confidence: "low" | "medium" | "high";
+}
+
+export interface AlertRule {
+  id: string;
+  type:
+    | "congress_trade"
+    | "insider_buy"
+    | "analyst_rating_change"
+    | "article_mention";
+  enabled: boolean;
+  params: Record<string, string | number>;
+}
+
+export interface NotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
+}
+
+export interface SubscriptionStatus {
+  plan: "free" | "premium";
+  status: "active" | "trialing" | "inactive";
 }
 
 export interface Entity {

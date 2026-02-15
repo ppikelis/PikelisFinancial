@@ -25,6 +25,13 @@ enum ActivityType {
   ANALYST_ACTION
 }
 
+enum AlertRuleType {
+  CONGRESS_TRADE
+  INSIDER_BUY
+  ANALYST_RATING_CHANGE
+  ARTICLE_MENTION
+}
+
 enum PeriodType {
   QUARTER
   ANNUAL
@@ -36,6 +43,7 @@ model User {
   createdAt  DateTime    @default(now())
   watchlists Watchlist[]
   alertRules AlertRule[]
+  notifications Notification[]
 }
 
 model Ticker {
@@ -98,6 +106,7 @@ model Article {
   title       String
   summary     String
   content     String
+  preview     String?
   paywalled   Boolean          @default(false)
   publishedAt DateTime
   authorId    String
@@ -206,6 +215,7 @@ model Watchlist {
   createdAt DateTime        @default(now())
   user      User            @relation(fields: [userId], references: [id])
   items     WatchlistItem[]
+  entities  WatchlistEntity[]
 }
 
 model WatchlistItem {
@@ -218,10 +228,20 @@ model WatchlistItem {
   @@unique([watchlistId, tickerId])
 }
 
+model WatchlistEntity {
+  id          String     @id @default(cuid())
+  watchlistId String
+  entityId    String
+  watchlist   Watchlist  @relation(fields: [watchlistId], references: [id])
+  entity      Entity     @relation(fields: [entityId], references: [id])
+
+  @@unique([watchlistId, entityId])
+}
+
 model AlertRule {
   id        String   @id @default(cuid())
   userId    String
-  type      String
+  type      AlertRuleType
   params    Json
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -229,6 +249,19 @@ model AlertRule {
 
   @@index([userId, isActive])
 }
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, isRead])
+}
+
 
 model SignalScore {
   id        String   @id @default(cuid())
