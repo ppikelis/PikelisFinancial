@@ -1,5 +1,4 @@
 import "./globals.css";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export const metadata = {
   title: "FinAdvisor",
@@ -14,7 +13,7 @@ export default function RootLayout({
   const useMock =
     process.env.NEXT_PUBLIC_USE_MOCK_DATA?.toLowerCase() === "true";
   return (
-    <html lang="en" data-theme="seeking-alpha">
+    <html lang="en" data-theme="zacks">
       <body className="min-h-screen bg-background text-foreground">
         <header className="border-b border-border bg-card">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
@@ -27,7 +26,6 @@ export default function RootLayout({
                 {useMock ? "Mock data enabled" : "Live data"}
               </div>
             </div>
-            <ThemeSwitcher />
           </div>
           <div className="border-t border-border bg-background">
             <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm">
@@ -46,6 +44,9 @@ export default function RootLayout({
                 </a>
                 <a className="text-muted-foreground hover:text-foreground" href="/activity">
                   Activity
+                </a>
+                <a className="text-muted-foreground hover:text-foreground" href="/themes">
+                  Themes
                 </a>
                 <a className="text-muted-foreground hover:text-foreground" href="/watchlist">
                   Watchlist

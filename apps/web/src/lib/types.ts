@@ -75,6 +75,13 @@ export interface SubscriptionStatus {
   status: "active" | "trialing" | "inactive";
 }
 
+export interface Theme {
+  id: string;
+  name: string;
+  description: string;
+  tickers: { symbol: string; label?: string }[];
+}
+
 export interface Entity {
   id: string;
   name: string;
