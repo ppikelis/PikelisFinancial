@@ -50,6 +50,9 @@ export default function RootLayout({
                 <a className="text-muted-foreground hover:text-foreground" href="/watchlist">
                   Watchlist
                 </a>
+                <a className="text-muted-foreground hover:text-foreground" href="/pricing">
+                  Pricing
+                </a>
               </nav>
               <div className="flex items-center gap-2">
                 <input
