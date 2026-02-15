@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TickerType {
+  STOCK
+  ETF
+}
+
+enum EntityType {
+  PERSON
+  INSTITUTION
+  ANALYST
+}
+
+enum ActivityType {
+  CONGRESS_TRADE
+  INSIDER_TRADE
+  INSTITUTIONAL_CHANGE
+  ANALYST_ACTION
+}
+
+enum PeriodType {
+  QUARTER
+  ANNUAL
+}
+
+model User {
+  id         String      @id @default(cuid())
+  email      String      @unique
+  createdAt  DateTime    @default(now())
+  watchlists Watchlist[]
+  alertRules AlertRule[]
+}
+
+model Ticker {
+  id        String            @id @default(cuid())
+  symbol    String            @unique
+  name      String
+  type      TickerType
+  exchange  String?
+  sector    String?
+  prices    PriceSnapshot[]
+  facts     Fundamental[]
+  mentions  ArticleMention[]
+  activity  ActivityEvent[]
+  scores    SignalScore[]
+  createdAt DateTime          @default(now())
+
+  @@index([symbol])
+}
+
+model PriceSnapshot {
+  id        String   @id @default(cuid())
+  tickerId  String
+  date      DateTime
+  open      Float?
+  high      Float?
+  low       Float?
+  close     Float?
+  volume    Float?
+  ticker    Ticker   @relation(fields: [tickerId], references: [id])
+
+  @@unique([tickerId, date])
+  @@index([date])
+}
+
+model Fundamental {
+  id         String     @id @default(cuid())
+  tickerId   String
+  periodEnd  DateTime
+  periodType PeriodType
+  revenue    Float?
+  eps        Float?
+  grossMargin Float?
+  freeCashFlow Float?
+  ticker     Ticker     @relation(fields: [tickerId], references: [id])
+
+  @@index([tickerId, periodEnd])
+}
+
+model Author {
+  id        String    @id @default(cuid())
+  name      String
+  bio       String?
+  profileUrl String?
+  articles  Article[]
+}
+
+model Article {
+  id          String           @id @default(cuid())
+  slug        String           @unique
+  title       String
+  summary     String
+  content     String
+  paywalled   Boolean          @default(false)
+  publishedAt DateTime
+  authorId    String
+  author      Author           @relation(fields: [authorId], references: [id])
+  mentions    ArticleMention[]
+  tags        ArticleTag[]
+  sources     ArticleSource[]
+  createdAt   DateTime         @default(now())
+
+  @@index([publishedAt])
+}
+
+model ArticleSection {
+  id        String   @id @default(cuid())
+  articleId String
+  title     String
+  body      String
+  order     Int
+  article   Article  @relation(fields: [articleId], references: [id])
+
+  @@index([articleId, order])
+}
+
+model Tag {
+  id    String       @id @default(cuid())
+  name  String       @unique
+  items ArticleTag[]
+}
+
+model ArticleTag {
+  id        String  @id @default(cuid())
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@unique([articleId, tagId])
+}
+
+model ArticleMention {
+  id        String  @id @default(cuid())
+  articleId String
+  tickerId  String
+  article   Article @relation(fields: [articleId], references: [id])
+  ticker    Ticker  @relation(fields: [tickerId], references: [id])
+
+  @@unique([articleId, tickerId])
+}
+
+model Entity {
+  id        String        @id @default(cuid())
+  name      String
+  type      EntityType
+  profile   String?
+  website   String?
+  activity  ActivityEvent[]
+  createdAt DateTime      @default(now())
+
+  @@index([type])
+}
+
+model ActivityEvent {
+  id          String       @id @default(cuid())
+  type        ActivityType
+  tickerId    String
+  entityId    String
+  action      String
+  amount      String?
+  occurredAt  DateTime
+  confidence  String?
+  sourceId    String?
+  meta        Json?
+  ticker      Ticker       @relation(fields: [tickerId], references: [id])
+  entity      Entity       @relation(fields: [entityId], references: [id])
+  source      Source?      @relation(fields: [sourceId], references: [id])
+
+  @@index([tickerId, occurredAt])
+  @@index([entityId, occurredAt])
+  @@index([type, occurredAt])
+}
+
+model Source {
+  id          String          @id @default(cuid())
+  url         String
+  publisher   String
+  retrievedAt DateTime
+  articles    ArticleSource[]
+  activity    ActivityEvent[]
+}
+
+model ArticleSource {
+  id        String  @id @default(cuid())
+  articleId String
+  sourceId  String
+  label     String?
+  article   Article @relation(fields: [articleId], references: [id])
+  source    Source  @relation(fields: [sourceId], references: [id])
+
+  @@unique([articleId, sourceId])
+}
+
+model Watchlist {
+  id        String          @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id])
+  items     WatchlistItem[]
+}
+
+model WatchlistItem {
+  id          String     @id @default(cuid())
+  watchlistId String
+  tickerId    String
+  watchlist   Watchlist  @relation(fields: [watchlistId], references: [id])
+  ticker      Ticker     @relation(fields: [tickerId], references: [id])
+
+  @@unique([watchlistId, tickerId])
+}
+
+model AlertRule {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  params    Json
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, isActive])
+}
+
+model SignalScore {
+  id        String   @id @default(cuid())
+  tickerId  String
+  asOf      DateTime
+  score     Float
+  components Json?
+  ticker    Ticker   @relation(fields: [tickerId], references: [id])
+
+  @@unique([tickerId, asOf])
+}
