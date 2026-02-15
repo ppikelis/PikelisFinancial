@@ -1,3 +1,4 @@
+import { PaywallCard } from "@/components/paywall-card";
 import { articleMock } from "@/lib/mock";
 
 interface ArticlePageProps {
@@ -6,6 +7,9 @@ interface ArticlePageProps {
 
 export default function ArticlePage({ params }: ArticlePageProps) {
   const article = articleMock[params.slug];
+  const isPremium =
+    process.env.MOCK_IS_PREMIUM?.toLowerCase() === "true" ||
+    process.env.NEXT_PUBLIC_MOCK_IS_PREMIUM?.toLowerCase() === "true";
 
   if (!article) {
     return (
@@ -40,11 +44,16 @@ export default function ArticlePage({ params }: ArticlePageProps) {
         <div className="text-sm font-semibold">TL;DR</div>
         <p className="mt-2 text-sm text-muted-foreground">{article.summary}</p>
         <div className="mt-4 space-y-4 text-sm">
-          {article.content.map((paragraph) => (
+          {(article.paywalled && !isPremium
+            ? article.preview ?? article.content.slice(0, 1)
+            : article.content
+          ).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
       </section>
+
+      {article.paywalled && !isPremium ? <PaywallCard /> : null}
 
       <section className="rounded-xl border border-border bg-card p-6">
         <div className="text-sm font-semibold">Citations</div>

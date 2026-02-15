@@ -9,6 +9,11 @@ export const articleMock: Record<string, Article> = {
     author: "Morgan Lee",
     publishedAt: "Feb 15, 2026",
     tickers: ["AAPL"],
+    paywalled: true,
+    preview: [
+      "Apple announced an expanded buyback program paired with modest guidance.",
+      "Services revenue continues to stabilize margins even as hardware slows."
+    ],
     content: [
       "Apple announced an expanded buyback program paired with modest guidance.",
       "Services revenue continues to stabilize margins even as hardware slows.",

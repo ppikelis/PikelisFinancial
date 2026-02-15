@@ -10,6 +10,7 @@
 - **Source / ArticleSource**: provenance tracking for citations.
 - **Watchlist / WatchlistItem / WatchlistEntity / AlertRule**: follow tickers/entities and alert rules.
 - **Notification**: in-app notifications for rule matches.
+- **Subscription**: premium access state (Stripe integration).
 - **SignalScore**: computed signal scores for ranking and “why now.”
 
 ## Example Queries by Page
