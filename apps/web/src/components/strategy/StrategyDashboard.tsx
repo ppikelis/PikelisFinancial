@@ -5,7 +5,7 @@ import { StrategyChart } from "@/components/strategy/StrategyChart";
 import { TimeframeTabs } from "@/components/strategy/TimeframeTabs";
 import { MetricCard } from "@/components/strategy/MetricCard";
 import { AboutSidebar } from "@/components/strategy/AboutSidebar";
-import { ThemeStrategy } from "@/lib/mock/themeStrategies";
+import { ThemeStrategy } from "@/lib/mock/strategies";
 
 const timeframeMap: Record<string, number> = {
   "1M": 30,

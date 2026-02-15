@@ -5,4 +5,4 @@ export { entityMock } from "./entities";
 export { activityMock } from "./activity";
 export { watchlistMock } from "./watchlist";
 export { themesMock } from "./themes";
-export { themeStrategiesMock } from "./themeStrategies";
+export { themeStrategiesMock } from "./strategies";
