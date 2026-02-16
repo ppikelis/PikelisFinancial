@@ -82,6 +82,27 @@ export interface Theme {
   tickers: { symbol: string; label?: string }[];
 }
 
+export type CollectionType =
+  | "themes"
+  | "banks"
+  | "congress"
+  | "influencers"
+  | "opinions";
+
+export interface PreviewPerformance {
+  basketSeries: { date: string; value: number }[];
+  benchmarkSeries: { date: string; value: number }[];
+  startDate: string;
+}
+
+export interface Collection {
+  id: string;
+  name: string;
+  description: string;
+  tickers: { symbol: string; label?: string }[];
+  previewPerformance: PreviewPerformance;
+}
+
 export interface Entity {
   id: string;
   name: string;

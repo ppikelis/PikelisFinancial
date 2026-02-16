@@ -6,3 +6,4 @@ export { activityMock } from "./activity";
 export { watchlistMock } from "./watchlist";
 export { themesMock } from "./themes";
 export { themeStrategiesMock } from "./strategies";
+export { themes, banks, congress, influencers, opinions } from "./collections";
