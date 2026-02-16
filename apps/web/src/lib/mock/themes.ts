@@ -6,10 +6,10 @@ export const themesMock: Theme[] = [
     name: "Magnificent 7",
     description: "Mega-cap tech leaders defining the modern index core.",
     tickers: [
-      { symbol: "NVDA" },
+      { symbol: "NVDA", label: "NVIDIA" },
       { symbol: "MSFT", label: "Microsoft" },
       { symbol: "AAPL", label: "Apple" },
-      { symbol: "GOOGL" },
+      { symbol: "GOOGL", label: "Alphabet" },
       { symbol: "AMZN", label: "Amazon" },
       { symbol: "META", label: "Meta" },
       { symbol: "TSLA", label: "Tesla" }
@@ -20,13 +20,13 @@ export const themesMock: Theme[] = [
     name: "AI infrastructure",
     description: "The hardware, networks, and platforms powering AI scale.",
     tickers: [
-      { symbol: "AVGO" },
-      { symbol: "TSM" },
-      { symbol: "AMD" },
-      { symbol: "ASML" },
-      { symbol: "LRCX" },
+      { symbol: "AVGO", label: "Broadcom" },
+      { symbol: "TSM", label: "TSMC" },
+      { symbol: "AMD", label: "AMD" },
+      { symbol: "ASML", label: "ASML" },
+      { symbol: "LRCX", label: "Lam Research" },
       { symbol: "ANET", label: "Arista" },
-      { symbol: "ARM" },
+      { symbol: "ARM", label: "Arm" },
       { symbol: "EQIX", label: "Equinix" },
       { symbol: "VRT", label: "Vertiv" },
       { symbol: "MDB", label: "MongoDB" }
@@ -38,14 +38,14 @@ export const themesMock: Theme[] = [
     description: "Software, platforms, and enablers riding the AI wave.",
     tickers: [
       { symbol: "PLTR", label: "Palantir" },
-      { symbol: "INTC" },
-      { symbol: "SNOW" },
-      { symbol: "PATH" },
-      { symbol: "SOUN" },
-      { symbol: "BBAI" },
-      { symbol: "AI" },
-      { symbol: "LAES" },
-      { symbol: "VERI" }
+      { symbol: "INTC", label: "Intel" },
+      { symbol: "SNOW", label: "Snowflake" },
+      { symbol: "PATH", label: "UiPath" },
+      { symbol: "SOUN", label: "SoundHound" },
+      { symbol: "BBAI", label: "BigBear.ai" },
+      { symbol: "AI", label: "C3.ai" },
+      { symbol: "LAES", label: "SEALSQ" },
+      { symbol: "VERI", label: "Veritone" }
     ]
   },
   {
@@ -53,11 +53,11 @@ export const themesMock: Theme[] = [
     name: "Quantum computing",
     description: "Early leaders in quantum hardware and software research.",
     tickers: [
-      { symbol: "IONQ" },
-      { symbol: "QBTS" },
-      { symbol: "RGTI" },
-      { symbol: "QUBT" },
-      { symbol: "ARQQ" }
+      { symbol: "IONQ", label: "IonQ" },
+      { symbol: "QBTS", label: "D-Wave" },
+      { symbol: "RGTI", label: "Rigetti" },
+      { symbol: "QUBT", label: "Quantum Computing" },
+      { symbol: "ARQQ", label: "Arqit" }
     ]
   },
   {
@@ -65,9 +65,9 @@ export const themesMock: Theme[] = [
     name: "Robotics",
     description: "Automation and sensing platforms for next-gen robotics.",
     tickers: [
-      { symbol: "BSX" },
-      { symbol: "TER" },
-      { symbol: "TDY" }
+      { symbol: "BSX", label: "Boston Scientific" },
+      { symbol: "TER", label: "Teradyne" },
+      { symbol: "TDY", label: "Teledyne" }
     ]
   },
   {
@@ -75,9 +75,9 @@ export const themesMock: Theme[] = [
     name: "Defence",
     description: "Defense tech and aerospace innovators.",
     tickers: [
-      { symbol: "RKLB" },
-      { symbol: "AVAV" },
-      { symbol: "KTOS" }
+      { symbol: "RKLB", label: "Rocket Lab" },
+      { symbol: "AVAV", label: "AeroVironment" },
+      { symbol: "KTOS", label: "Kratos" }
     ]
   },
   {
@@ -85,9 +85,9 @@ export const themesMock: Theme[] = [
     name: "Flying taxis",
     description: "eVTOL pioneers working toward urban air mobility.",
     tickers: [
-      { symbol: "JOBY" },
-      { symbol: "ACHR" },
-      { symbol: "HON" }
+      { symbol: "JOBY", label: "Joby" },
+      { symbol: "ACHR", label: "Archer" },
+      { symbol: "HON", label: "Honeywell" }
     ]
   },
   {
@@ -95,10 +95,10 @@ export const themesMock: Theme[] = [
     name: "Nuclear",
     description: "Nuclear energy leaders and next-gen reactor plays.",
     tickers: [
-      { symbol: "CEG" },
-      { symbol: "CCJ" },
-      { symbol: "OKLO" },
-      { symbol: "SMR" }
+      { symbol: "CEG", label: "Constellation" },
+      { symbol: "CCJ", label: "Cameco" },
+      { symbol: "OKLO", label: "Oklo" },
+      { symbol: "SMR", label: "NuScale" }
     ]
   }
 ];

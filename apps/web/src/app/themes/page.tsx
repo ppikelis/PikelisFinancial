@@ -71,7 +71,7 @@ export default function ThemesPage() {
         return (
           <section
             key={theme.id}
-            className="rounded-xl border border-border bg-card p-6 transition hover:border-muted-foreground/40"
+            className="rounded-xl border border-border bg-card p-6 transition hover:border-muted-foreground/40 hover:bg-muted/40 focus-within:border-primary/60 focus-within:ring-1 focus-within:ring-primary/40 cursor-pointer"
             role="link"
             tabIndex={0}
             onClick={() => router.push(`/themes/${theme.id}`)}
@@ -90,16 +90,23 @@ export default function ThemesPage() {
                       {theme.description}
                     </div>
                   </div>
-                  <span className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
-                    View theme
-                  </span>
+                  <button
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    aria-label={`Open ${theme.name} theme`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      router.push(`/themes/${theme.id}`);
+                    }}
+                  >
+                    Open theme <span aria-hidden>›</span>
+                  </button>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {theme.tickers.map((ticker) => (
                     <Link
                       key={`${theme.id}-${ticker.symbol}`}
                       href={`/stocks/${ticker.symbol}`}
-                      className="rounded-full border border-border px-3 py-1 text-xs"
+                      className="rounded-full border border-border px-3 py-1 text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                       onClick={(event) => event.stopPropagation()}
                     >
                       {ticker.symbol}
@@ -111,7 +118,10 @@ export default function ThemesPage() {
 
               <div className="space-y-2">
                 <div className="text-xs text-muted-foreground">
-                  Strategy vs S&amp;P 500
+                  Performance (Basket vs S&amp;P 500)
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  Hover for returns. Click “Open theme” for details.
                 </div>
                 <div className="rounded-md border border-border bg-gradient-to-b from-muted/70 to-transparent p-3">
                   <ThemePreviewChart
