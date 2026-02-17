@@ -3,6 +3,7 @@ import { ingestCongressTrades } from "./pipelines/congress-trades";
 import { ingestInsiderTrades } from "./pipelines/insider-trades";
 import { ingestInstitutionalChanges } from "./pipelines/institutional-changes";
 import { ingestMarketData } from "./pipelines/market-data";
+import { ingestNews } from "@/jobs/news/ingestNews";
 
 const USE_MOCK_DATA =
   process.env.USE_MOCK_DATA?.toLowerCase() === "true" ||
@@ -19,4 +20,5 @@ export async function runIngestion() {
   await ingestInsiderTrades();
   await ingestInstitutionalChanges();
   await ingestAnalystActions();
+  await ingestNews();
 }

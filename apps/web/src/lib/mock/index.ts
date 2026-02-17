@@ -7,3 +7,6 @@ export { watchlistMock } from "./watchlist";
 export { themesMock } from "./themes";
 export { themeStrategiesMock } from "./strategies";
 export { themes, banks, congress, influencers, opinions } from "./collections";
+export { stockGroups } from "./stockGroups";
+export { mockNews, newsThemes } from "./news";
+export { mockNewsArticles } from "./newsArticles";

@@ -32,7 +32,7 @@ export default function RootLayout({
             <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm">
               <div className="flex flex-wrap items-center gap-3">
                 <NavLink href="/" label="Home" />
-                <NavLink href="/stocks" label="Stock" />
+                <NavLink href="/news" label="News" />
                 <NavLink href="/themes" label="Theme" />
                 <NavLink href="/banks" label="Banks" />
                 <NavLink href="/congress" label="Congress" />
