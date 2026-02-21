@@ -39,7 +39,8 @@ export function NewsItemRow({
   const extraTickers = item.tickers.slice(1, 3);
   const remainingCount =
     item.tickers.length > 3 ? item.tickers.length - 3 : 0;
-  const primarySource = item.sourceUrls[0] ?? "#";
+  const sources = item.sourceUrls ?? [];
+  const primarySource = sources[0] ?? "#";
 
   return (
     <div className="rounded-xl border border-border bg-card p-5">
@@ -108,17 +109,17 @@ export function NewsItemRow({
         </div>
       </div>
       <Link
-        href={`/news/${item.id}`}
+        href={`/news/${item.slug}`}
         className="mt-3 block text-lg font-semibold text-foreground hover:underline"
       >
-        {item.headline}
+        {item.title}
       </Link>
       {expanded ? (
         <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
       ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         <span>Sources:</span>
-        {item.sourceUrls.slice(0, 3).map((url) => (
+        {sources.slice(0, 3).map((url) => (
           <a
             key={url}
             href={url}

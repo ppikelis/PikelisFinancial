@@ -1,0 +1,15 @@
+Design a Prisma schema for this app.
+
+Must support:
+- Tickers (stocks, ETFs), pricing snapshots (daily), fundamentals (periodic)
+- Articles: author, tickers mentioned, sections, tags, paywalled flag, source links
+- Entities: people/institutions/analysts (e.g., Pelosi, Goldman), with type + profile
+- Activity events unified table (Congress trades, insider trades, 13F changes, analyst actions)
+- Watchlists + alert rules per user
+- Source table to track provenance (url, publisher, retrieved_at)
+- Optional: “signal scores” table for computed metrics
+
+Output:
+- Prisma models with indexes
+- Short explanation of each model and why it exists
+- Example queries needed by each page (Home/Stock/Article/Entity/Activity)

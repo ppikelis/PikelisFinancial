@@ -1,4 +1,5 @@
 import { Collection } from "@/lib/types";
+import { STOCK_GROUPS, STOCK_GROUPS_ORDER } from "@/lib/data/stocks";
 
 const seededRandom = (seed: number) => {
   let value = seed % 2147483647;
@@ -40,126 +41,38 @@ const makePreview = (seed: string) => ({
   startDate: baseStart
 });
 
-export const themes: Collection[] = [
-  {
-    id: "mag-7",
-    name: "Magnificent 7",
-    description: "Mega-cap tech leaders defining the modern index core.",
-    tickers: [
-      { symbol: "NVDA", label: "NVIDIA" },
-      { symbol: "MSFT", label: "Microsoft" },
-      { symbol: "AAPL", label: "Apple" },
-      { symbol: "GOOGL", label: "Alphabet" },
-      { symbol: "AMZN", label: "Amazon" },
-      { symbol: "META", label: "Meta" },
-      { symbol: "TSLA", label: "Tesla" }
-    ],
-    previewPerformance: makePreview("mag-7")
-  },
-  {
-    id: "ai-infrastructure",
-    name: "AI infrastructure",
-    description: "The hardware, networks, and platforms powering AI scale.",
-    tickers: [
-      { symbol: "AVGO", label: "Broadcom" },
-      { symbol: "TSM", label: "TSMC" },
-      { symbol: "AMD", label: "AMD" },
-      { symbol: "ASML", label: "ASML" },
-      { symbol: "LRCX", label: "Lam Research" },
-      { symbol: "ANET", label: "Arista" },
-      { symbol: "ARM", label: "Arm" },
-      { symbol: "EQIX", label: "Equinix" },
-      { symbol: "VRT", label: "Vertiv" },
-      { symbol: "MDB", label: "MongoDB" }
-    ],
-    previewPerformance: makePreview("ai-infrastructure")
-  },
-  {
-    id: "ai",
-    name: "AI",
-    description: "Software, platforms, and enablers riding the AI wave.",
-    tickers: [
-      { symbol: "PLTR", label: "Palantir" },
-      { symbol: "INTC", label: "Intel" },
-      { symbol: "SNOW", label: "Snowflake" },
-      { symbol: "PATH", label: "UiPath" },
-      { symbol: "SOUN", label: "SoundHound" },
-      { symbol: "BBAI", label: "BigBear.ai" },
-      { symbol: "AI", label: "C3.ai" },
-      { symbol: "LAES", label: "SEALSQ" },
-      { symbol: "VERI", label: "Veritone" }
-    ],
-    previewPerformance: makePreview("ai")
-  },
-  {
-    id: "quantum-computing",
-    name: "Quantum computing",
-    description: "Early leaders in quantum hardware and software research.",
-    tickers: [
-      { symbol: "IONQ", label: "IonQ" },
-      { symbol: "QBTS", label: "D-Wave" },
-      { symbol: "RGTI", label: "Rigetti" },
-      { symbol: "QUBT", label: "Quantum Computing" },
-      { symbol: "ARQQ", label: "Arqit" }
-    ],
-    previewPerformance: makePreview("quantum")
-  },
-  {
-    id: "robotics",
-    name: "Robotics",
-    description: "Automation and sensing platforms for next-gen robotics.",
-    tickers: [
-      { symbol: "BSX", label: "Boston Scientific" },
-      { symbol: "TER", label: "Teradyne" },
-      { symbol: "TDY", label: "Teledyne" }
-    ],
-    previewPerformance: makePreview("robotics")
-  },
-  {
-    id: "defence",
-    name: "Defence",
-    description: "Defense tech and aerospace innovators.",
-    tickers: [
-      { symbol: "RKLB", label: "Rocket Lab" },
-      { symbol: "AVAV", label: "AeroVironment" },
-      { symbol: "KTOS", label: "Kratos" }
-    ],
-    previewPerformance: makePreview("defence")
-  },
-  {
-    id: "flying-taxis",
-    name: "Flying taxis",
-    description: "eVTOL pioneers working toward urban air mobility.",
-    tickers: [
-      { symbol: "JOBY", label: "Joby" },
-      { symbol: "ACHR", label: "Archer" },
-      { symbol: "HON", label: "Honeywell" }
-    ],
-    previewPerformance: makePreview("flying-taxis")
-  },
-  {
-    id: "nuclear",
-    name: "Nuclear",
-    description: "Nuclear energy leaders and next-gen reactor plays.",
-    tickers: [
-      { symbol: "CEG", label: "Constellation" },
-      { symbol: "CCJ", label: "Cameco" },
-      { symbol: "OKLO", label: "Oklo" },
-      { symbol: "SMR", label: "NuScale" }
-    ],
-    previewPerformance: makePreview("nuclear")
-  }
-];
+const slugify = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const themeDescriptions: Record<string, string> = {
+  MAG7: "Mega-cap tech leaders defining the modern index core.",
+  "AI Infrastructure": "The hardware, networks, and platforms powering AI scale.",
+  Nuclear: "Nuclear energy leaders and next-gen reactor plays.",
+  "Quantum Computing": "Early leaders in quantum hardware and software research.",
+  "Flying Taxis": "eVTOL pioneers working toward urban air mobility."
+};
+
+export const themes: Collection[] = STOCK_GROUPS_ORDER.map((groupName) => ({
+  id: slugify(groupName),
+  name: groupName === "MAG7" ? "Magnificent 7" : groupName,
+  description:
+    themeDescriptions[groupName] ?? "Curated coverage from our universe.",
+  tickers: STOCK_GROUPS[groupName].map((ticker) => ({
+    symbol: ticker.symbol,
+    label: ticker.name
+  })),
+  previewPerformance: makePreview(slugify(groupName))
+}));
 
 export const banks: Collection[] = [
   {
     id: "us-banks",
-    name: "US Money Centers",
-    description: "Systemically important banks and retail leaders.",
+    name: "Curated Coverage",
+    description: "Coverage tied to the curated stock universe.",
     tickers: [
-      { symbol: "JPM", label: "JPMorgan" },
-      { symbol: "BAC", label: "Bank of America" },
-      { symbol: "C", label: "Citigroup" }
+      { symbol: "AAPL", label: "Apple" },
+      { symbol: "MSFT", label: "Microsoft" },
+      { symbol: "NVDA", label: "NVIDIA" }
     ],
     previewPerformance: makePreview("banks-us")
   }
@@ -169,7 +82,7 @@ export const congress: Collection[] = [
   {
     id: "top-traders",
     name: "Top Congressional Traders",
-    description: "Most active congressional portfolios.",
+    description: "Most active congressional portfolios within coverage.",
     tickers: [
       { symbol: "AAPL", label: "Apple" },
       { symbol: "NVDA", label: "NVIDIA" },
@@ -183,11 +96,11 @@ export const influencers: Collection[] = [
   {
     id: "finfluencers",
     name: "Top Finfluencers",
-    description: "High-engagement investor personalities.",
+    description: "High-engagement personalities in the curated universe.",
     tickers: [
       { symbol: "TSLA", label: "Tesla" },
-      { symbol: "PLTR", label: "Palantir" },
-      { symbol: "COIN", label: "Coinbase" }
+      { symbol: "AMZN", label: "Amazon" },
+      { symbol: "META", label: "Meta" }
     ],
     previewPerformance: makePreview("influencers")
   }

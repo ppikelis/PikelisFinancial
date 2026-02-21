@@ -1,5 +1,5 @@
 export { homeMock } from "./home";
-export { stockMock } from "./stocks";
+export { stockMock, mockStockMetrics } from "./stocks";
 export { articleMock } from "./articles";
 export { entityMock } from "./entities";
 export { activityMock } from "./activity";
@@ -10,3 +10,7 @@ export { themes, banks, congress, influencers, opinions } from "./collections";
 export { stockGroups } from "./stockGroups";
 export { mockNews, newsThemes } from "./news";
 export { mockNewsArticles } from "./newsArticles";
+export { stockMetricsMock } from "./stockMetrics";
+export { stockPriceSeriesMock } from "./stockPriceSeries";
+export { getRatioHistory } from "./ratioHistory";
+export { congressTradesMock, congressPerformanceMock } from "./congressTrades";

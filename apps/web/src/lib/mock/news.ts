@@ -10,6 +10,8 @@ export interface NewsItem {
   movePct?: number;
 }
 
+import { STOCK_GROUPS, STOCK_GROUPS_ORDER } from "@/lib/data/stocks";
+
 export interface NewsTheme {
   id: string;
   label: string;
@@ -40,16 +42,13 @@ const sources = [
   "The Information"
 ];
 
-export const newsThemes: NewsTheme[] = [
-  { id: "mag7", label: "MAG 7" },
-  { id: "ai-infrastructure", label: "AI infrastructure" },
-  { id: "ai", label: "AI" },
-  { id: "quantum-computing", label: "Quantum computing" },
-  { id: "robotics", label: "Robotics" },
-  { id: "defence", label: "Defence" },
-  { id: "flying-taxis", label: "Flying taxis" },
-  { id: "nuclear", label: "Nuclear" }
-];
+const slugify = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+export const newsThemes: NewsTheme[] = STOCK_GROUPS_ORDER.map((groupName) => ({
+  id: slugify(groupName),
+  label: groupName === "MAG7" ? "MAG 7" : groupName
+}));
 
 const headlineTemplates = [
   "{{ticker}} rallies as demand accelerates across {{theme}}",
@@ -73,7 +72,7 @@ function buildNewsForTheme({
   tickers: string[];
   crossThemeId?: string;
 }) {
-  return headlineTemplates.map((template, index) => {
+  return headlineTemplates.slice(0, 8).map((template, index) => {
     const ticker = tickers[index % tickers.length];
     const headline = template
       .replace("{{ticker}}", ticker)
@@ -97,72 +96,23 @@ function buildNewsForTheme({
   });
 }
 
-const mag7News = buildNewsForTheme({
-  themeId: "mag7",
-  themeLabel: "MAG 7",
-  tickers: ["NVDA", "MSFT", "AAPL", "GOOGL", "AMZN", "META", "TSLA"],
-  crossThemeId: "ai"
-});
+const crossThemeOrder = STOCK_GROUPS_ORDER.map((groupName) =>
+  slugify(groupName)
+);
 
-const aiInfrastructureNews = buildNewsForTheme({
-  themeId: "ai-infrastructure",
-  themeLabel: "AI infrastructure",
-  tickers: ["AVGO", "TSM", "AMD", "ASML", "LRCX", "ANET", "ARM", "EQIX"],
-  crossThemeId: "ai"
-});
-
-const aiNews = buildNewsForTheme({
-  themeId: "ai",
-  themeLabel: "AI",
-  tickers: ["PLTR", "INTC", "SNOW", "PATH", "SOUN", "BBAI", "AI", "LAES"],
-  crossThemeId: "mag7"
-});
-
-const quantumNews = buildNewsForTheme({
-  themeId: "quantum-computing",
-  themeLabel: "Quantum computing",
-  tickers: ["IONQ", "QBTS", "RGTI", "QUBT", "ARQQ"],
-  crossThemeId: "ai"
-});
-
-const roboticsNews = buildNewsForTheme({
-  themeId: "robotics",
-  themeLabel: "Robotics",
-  tickers: ["BSX", "TER", "TDY"],
-  crossThemeId: "ai-infrastructure"
-});
-
-const defenceNews = buildNewsForTheme({
-  themeId: "defence",
-  themeLabel: "Defence",
-  tickers: ["RKLB", "AVAV", "KTOS"],
-  crossThemeId: "ai"
-});
-
-const flyingTaxiNews = buildNewsForTheme({
-  themeId: "flying-taxis",
-  themeLabel: "Flying taxis",
-  tickers: ["JOBY", "ACHR", "HON"],
-  crossThemeId: "mag7"
-});
-
-const nuclearNews = buildNewsForTheme({
-  themeId: "nuclear",
-  themeLabel: "Nuclear",
-  tickers: ["CEG", "CCJ", "OKLO", "SMR"],
-  crossThemeId: "ai-infrastructure"
-});
-
-export const mockNews: NewsItem[] = [
-  ...mag7News,
-  ...aiInfrastructureNews,
-  ...aiNews,
-  ...quantumNews,
-  ...roboticsNews,
-  ...defenceNews,
-  ...flyingTaxiNews,
-  ...nuclearNews
-].sort(
+export const mockNews: NewsItem[] = STOCK_GROUPS_ORDER.flatMap(
+  (groupName, index) => {
+    const themeId = slugify(groupName);
+    const tickers = STOCK_GROUPS[groupName].map((stock) => stock.symbol);
+    const crossThemeId = crossThemeOrder[(index + 1) % crossThemeOrder.length];
+    return buildNewsForTheme({
+      themeId,
+      themeLabel: groupName === "MAG7" ? "MAG 7" : groupName,
+      tickers,
+      crossThemeId
+    });
+  }
+).sort(
   (a, b) =>
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
 );

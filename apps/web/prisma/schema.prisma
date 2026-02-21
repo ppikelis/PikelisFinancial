@@ -322,6 +322,57 @@ model JobRun {
   logs      String?
 }
 
+model CongressTrade {
+  id              String   @id @default(cuid())
+  politician      String
+  chamber         String
+  ticker          String
+  assetName       String?
+  tradeDate       DateTime
+  reportDate      DateTime?
+  transactionType String
+  amountMin       Float?
+  amountMax       Float?
+  ownerType       String?
+  sourceUrl       String?
+  createdAt       DateTime @default(now())
+
+  @@index([politician, tradeDate])
+  @@index([ticker, tradeDate])
+  @@unique([politician, tradeDate, ticker, transactionType, reportDate], name: "politician_tradeDate_ticker_transactionType_reportDate")
+}
+
+model SecFiling {
+  id              String              @id @default(cuid())
+  symbol          String
+  cik             String
+  accessionNumber String
+  formType        String
+  filingDate      DateTime
+  reportDate      DateTime?
+  primaryDoc      String
+  secUrl          String
+  title           String?
+  textContent     String?
+  rawHtmlPath     String?
+  createdAt       DateTime            @default(now())
+  sections        SecFilingSection[]
+
+  @@unique([symbol, accessionNumber])
+  @@index([symbol, filingDate])
+}
+
+model SecFilingSection {
+  id        String   @id @default(cuid())
+  filingId  String
+  sectionName String
+  text      String
+  createdAt DateTime @default(now())
+  filing    SecFiling @relation(fields: [filingId], references: [id])
+
+  @@index([filingId])
+}
+
 
 model SignalScore {
   id        String   @id @default(cuid())

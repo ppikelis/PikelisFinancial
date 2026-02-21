@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="zacks">
       <body className="min-h-screen bg-background text-foreground">
-        <header className="border-b border-border bg-card">
+        <header className="sticky top-0 z-50 border-b border-border bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-slate-900/75">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
               <div className="rounded-md bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground">
@@ -32,7 +32,15 @@ export default function RootLayout({
             <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm">
               <div className="flex flex-wrap items-center gap-3">
                 <NavLink href="/" label="Home" />
+                <NavLink href="/getting-started" label="Investing" exact />
+                <NavLink
+                  href="/getting-started-2"
+                  label="Goals"
+                  exact
+                />
                 <NavLink href="/news" label="News" />
+                <NavLink href="/etfs" label="ETFs" />
+                <NavLink href="/stocks" label="Stocks" />
                 <NavLink href="/themes" label="Theme" />
                 <NavLink href="/banks" label="Banks" />
                 <NavLink href="/congress" label="Congress" />

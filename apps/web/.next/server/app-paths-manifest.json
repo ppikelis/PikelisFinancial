@@ -1,0 +1,9 @@
+{
+  "/getting-started-2/page": "app/getting-started-2/page.js",
+  "/getting-started/page": "app/getting-started/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/banks/page": "app/banks/page.js",
+  "/congress/page": "app/congress/page.js",
+  "/news/page": "app/news/page.js"
+}

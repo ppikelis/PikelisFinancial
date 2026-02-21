@@ -36,7 +36,7 @@ export function ThemeStrategyChart({
 
   return (
     <div className="space-y-4">
-      <div className="h-96 w-full">
+    <div className="h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <XAxis dataKey="date" hide />

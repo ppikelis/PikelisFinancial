@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-const frames = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "MAX"] as const;
+const frames = ["1W", "1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "MAX"] as const;
 
 interface TimeframeTabsProps {
   value: string;

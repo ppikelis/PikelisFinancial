@@ -46,12 +46,9 @@ const baseStart = "2021-01-01";
 const days = 1200;
 
 const aboutByTheme: Record<string, string> = {
-  "mag-7": "Blue-chip tech strategy focused on durable cash flow and AI exposure.",
+  mag7: "Blue-chip tech strategy focused on durable cash flow and AI exposure.",
   "ai-infrastructure": "Infrastructure picks that benefit from AI capex cycles.",
-  ai: "AI software and platform names with higher volatility.",
   "quantum-computing": "Early-stage quantum innovators with long-duration optionality.",
-  robotics: "Industrial automation leaders with steady cash flows.",
-  defence: "Defense tech and aerospace positioned for higher spend cycles.",
   "flying-taxis": "Urban air mobility pioneers with pre-revenue risk.",
   nuclear: "Nuclear energy leaders and SMR innovators."
 };

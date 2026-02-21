@@ -15,11 +15,14 @@
     "jobs:generate": "tsx src/jobs/news/generate.ts",
     "jobs:news:preview": "tsx src/jobs/news/preview.ts",
     "jobs:alerts": "tsx src/jobs/alerts/evaluate.ts",
+    "sec:ingest": "tsx src/jobs/secIngest.ts",
+    "jobs:congress": "tsx src/jobs/congressIngest.ts",
     "prisma:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
     "@prisma/client": "^5.22.0",
+    "@radix-ui/react-accordion": "^1.2.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "jsdom": "^28.1.0",
@@ -31,7 +34,8 @@
     "recharts": "^2.15.4",
     "rss-parser": "^3.13.0",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",

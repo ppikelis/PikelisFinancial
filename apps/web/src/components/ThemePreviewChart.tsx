@@ -8,27 +8,49 @@ import {
   XAxis,
   YAxis
 } from "recharts";
+import { useMemo } from "react";
+import { filterSeriesByTimeframe, Timeframe } from "@/lib/utils/timeframe";
 
 interface ThemePreviewChartProps {
   themeId: string;
   basketSeries: { date: string; value: number }[];
   benchmarkSeries: { date: string; value: number }[];
+  timeframe: Timeframe;
 }
 
 export function ThemePreviewChart({
   basketSeries,
-  benchmarkSeries
+  benchmarkSeries,
+  timeframe
 }: ThemePreviewChartProps) {
-  const merged = basketSeries.map((point, index) => ({
-    date: point.date,
-    basket: point.value,
-    spy: benchmarkSeries[index]?.value ?? point.value
-  }));
+  const filtered = useMemo(() => {
+    const basket = filterSeriesByTimeframe(basketSeries, timeframe);
+    const spy = filterSeriesByTimeframe(benchmarkSeries, timeframe);
+    return basket.map((point, index) => ({
+      date: point.date,
+      basket: point.value,
+      spy: spy[index]?.value ?? point.value
+    }));
+  }, [basketSeries, benchmarkSeries, timeframe]);
+
+  const timeframeReturnLabel = timeframe === "MAX" ? "MAX" : timeframe;
+
+  const computeReturn = (series: { value: number }[]) => {
+    if (series.length < 2) {
+      return 0;
+    }
+    return ((series[series.length - 1].value / series[0].value - 1) * 100);
+  };
+
+  const basketReturn = computeReturn(filtered.map((point) => ({ value: point.basket })));
+  const spyReturn = computeReturn(filtered.map((point) => ({ value: point.spy })));
+  const outperformance = basketReturn - spyReturn;
 
   return (
-    <div className="h-32 w-full">
+    <div className="space-y-2">
+      <div className="h-32 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={merged}>
+        <LineChart data={filtered}>
           <XAxis dataKey="date" hide />
           <YAxis hide />
           <Tooltip
@@ -80,6 +102,25 @@ export function ThemePreviewChart({
           />
         </LineChart>
       </ResponsiveContainer>
+      </div>
+      <div className="flex flex-wrap items-center justify-between text-[11px] text-muted-foreground">
+        <div>
+          {timeframeReturnLabel}:{" "}
+          <span className={basketReturn >= 0 ? "text-primary" : "text-red-400"}>
+            {basketReturn.toFixed(2)}%
+          </span>
+        </div>
+        <div>
+          S&amp;P 500:{" "}
+          <span className="text-muted-foreground">{spyReturn.toFixed(2)}%</span>
+        </div>
+        <div>
+          +/‑{" "}
+          <span className={outperformance >= 0 ? "text-primary" : "text-red-400"}>
+            {outperformance.toFixed(2)}%
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

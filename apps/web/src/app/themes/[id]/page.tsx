@@ -45,11 +45,13 @@ export default function ThemeDetailPage({ params }: ThemePageProps) {
       return series.filter((point) => new Date(point.date) >= start);
     }
     const map: Record<string, number> = {
+      "1W": 7,
       "1M": 30,
       "3M": 90,
       "6M": 180,
       "1Y": 365,
-      "3Y": 1095
+      "3Y": 1095,
+      "5Y": 1825
     };
     const days = map[frame] ?? 30;
     const start = new Date(end);
@@ -175,7 +177,7 @@ export default function ThemeDetailPage({ params }: ThemePageProps) {
             All Time
           </div>
 
-          <div className="mt-4 rounded-sm border border-border bg-background p-4">
+          <div className="mt-4 rounded-sm border border-border bg-background p-3">
             <ThemeStrategyChart
               data={chartData}
               tickers={tickers}

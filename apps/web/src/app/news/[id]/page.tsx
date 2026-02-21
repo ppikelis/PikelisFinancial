@@ -41,9 +41,9 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
       </header>
 
       <section className="rounded-xl border border-border bg-card p-6">
-        <ReactMarkdown className="prose max-w-none text-sm text-foreground">
-          {article.bodyMarkdown}
-        </ReactMarkdown>
+        <div className="prose max-w-none text-sm text-foreground">
+          <ReactMarkdown>{article.bodyMarkdown}</ReactMarkdown>
+        </div>
       </section>
 
       <section className="rounded-xl border border-border bg-card p-6">

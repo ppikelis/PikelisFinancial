@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { ThemePreviewChart } from "@/components/ThemePreviewChart";
 import { Collection, CollectionType } from "@/lib/types";
+import { Timeframe } from "@/lib/utils/timeframe";
 
 interface CollectionPageProps {
   title: string;
   description: string;
   collections: Collection[];
   type: CollectionType;
+  timeframe?: Timeframe;
+  onTimeframeChange?: (timeframe: Timeframe) => void;
 }
 
 const normalizeSeries = (series: { date: string; value: number }[]) => {
@@ -27,7 +30,14 @@ const computeReturn = (series: { date: string; value: number }[]) => {
   return Number(((series[series.length - 1].value / series[0].value - 1) * 100).toFixed(2));
 };
 
-export function CollectionPage({ title, description, collections, type }: CollectionPageProps) {
+export function CollectionPage({
+  title,
+  description,
+  collections,
+  type,
+  timeframe,
+  onTimeframeChange
+}: CollectionPageProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -36,14 +46,30 @@ export function CollectionPage({ title, description, collections, type }: Collec
       <header className="rounded-xl border border-border bg-card p-6">
         <div className="text-sm font-semibold">{title}</div>
         <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+        {timeframe && onTimeframeChange ? (
+          <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+            {(["1W", "1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "MAX"] as Timeframe[]).map(
+              (frame) => (
+                <button
+                  key={frame}
+                  className={`rounded-md border border-border px-2 py-0.5 ${
+                    frame === timeframe
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                  onClick={() => onTimeframeChange(frame)}
+                >
+                  {frame}
+                </button>
+              )
+            )}
+          </div>
+        ) : null}
       </header>
 
       {collections.map((collection) => {
         const basketSeries = normalizeSeries(collection.previewPerformance.basketSeries);
         const spySeries = normalizeSeries(collection.previewPerformance.benchmarkSeries);
-        const allTimeReturn = computeReturn(basketSeries);
-        const oneYearSeries = basketSeries.slice(Math.max(0, basketSeries.length - 365));
-        const oneYearReturn = computeReturn(oneYearSeries);
 
         return (
           <section
@@ -105,6 +131,7 @@ export function CollectionPage({ title, description, collections, type }: Collec
                     themeId={collection.id}
                     basketSeries={basketSeries}
                     benchmarkSeries={spySeries}
+                    timeframe={timeframe ?? "1Y"}
                   />
                   <div className="mt-2 flex items-center gap-3 text-[11px] text-muted-foreground">
                     <span className="inline-flex items-center gap-2">
@@ -118,18 +145,6 @@ export function CollectionPage({ title, description, collections, type }: Collec
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center justify-end gap-4 text-xs text-muted-foreground">
-                  <div>
-                    1Y:{" "}
-                    <span className={oneYearReturn >= 0 ? "text-primary" : "text-red-400"}>
-                      {oneYearReturn.toFixed(2)}%
-                    </span>
-                  </div>
-                  <div>
-                    All-time:{" "}
-                    <span className={allTimeReturn >= 0 ? "text-primary" : "text-red-400"}>
-                      {allTimeReturn.toFixed(2)}%
-                    </span>
-                  </div>
                   <div>Start: {collection.previewPerformance.startDate}</div>
                 </div>
               </div>
